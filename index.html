@@ -112,19 +112,21 @@
       }
 
 
-
-
+      function useAutoScroll(dependencies){
+         const chatMessagesRef = React.useRef(null);
+          React.useEffect(()=>{
+            const containerElem = chatMessagesRef.current;
+            if(containerElem){
+              containerElem.scrollTop = containerElem.scrollHeight; 
+            }
+        },[dependencies]);
+        return chatMessagesRef; 
+      }
       function ChatMessagesComp({chatMessages}){
-        const chatMessagesRef = React.useRef(null);
-         React.useEffect(()=>{
-          const containerElem = chatMessagesRef.current;
-          if(containerElem){
-            containerElem.scrollTop = containerElem.scrollHeight; 
-          }
-      },[chatMessages]);
+        const refElem = useAutoScroll(chatMessages);
         return (
           <div className='chat-message-containers'
-          ref={chatMessagesRef}>
+          ref={refElem}>
             {
               chatMessages.map((chatMessage)=>{
                   return(
